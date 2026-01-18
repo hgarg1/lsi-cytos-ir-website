@@ -4,13 +4,6 @@ import { Pool, PoolConfig } from 'pg';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const getConfig = (): PoolConfig => {
-  if (process.env.DATABASE_URL) {
-    return {
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-    };
-  }
-
   return {
     host: process.env.POSTGRES_HOST,
     port: parseInt(process.env.POSTGRES_PORT || '5432'),

@@ -1,16 +1,8 @@
 # Deploying to Vercel with Cloud PostgreSQL
 
 ## 1. Environment Variables
-In your Vercel Project Settings > Environment Variables, add the following:
+In your Vercel Project Settings > Environment Variables, add the following discrete variables:
 
-### Option A: Connection String (Recommended)
-Most Cloud providers (Google Cloud SQL, Neon, Supabase, AWS RDS) provide a full connection string.
-```bash
-DATABASE_URL="postgres://user:password@34.x.x.x:5432/ir_platform_db?sslmode=require"
-```
-
-### Option B: Discrete Variables
-If you prefer individual values:
 ```bash
 POSTGRES_HOST=34.x.x.x
 POSTGRES_PORT=5432
