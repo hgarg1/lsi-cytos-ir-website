@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Living Systems Intelligence | CytosAI IR Platform 🧬
 
-## Getting Started
+![Production Ready](https://img.shields.io/badge/Status-Production--Ready-evergreen?style=for-the-badge)
+![Next.js 15](https://img.shields.io/badge/Framework-Next.js%2015-graphite?style=for-the-badge&logo=next.js)
+![Three.js](https://img.shields.io/badge/Engine-Three.js%20%2F%20R3F-blue?style=for-the-badge&logo=three.js)
+![PostgreSQL](https://img.shields.io/badge/Database-Cloud%20Postgres-3A5F7D?style=for-the-badge&logo=postgresql)
 
-First, run the development server:
+> **Mission Statement:** Pioneering the intersection of Living Systems Intelligence and computational biology. This platform serves as the secure, institutional-grade bridge between our scientific breakthroughs and our global investment partners.
 
+---
+
+## 💎 Immersive Architecture
+
+This is not a standard corporate website. It is a cinematic, 3D-accelerated data environment designed to signal institutional trust and technological superiority.
+
+### 🎥 High-Fidelity 3D Visuals
+*   **The Molecule (Landing)**: A complex, interactive 3D representation of localized structural integrity.
+*   **Sentinel Core (Auth)**: A refractive, pulsating security orb guarding the login portal.
+*   **Data Terrain (Financials)**: Undulating wireframe landscapes representing data security and depth.
+*   **The Ritual (Easter Egg)**: A secret occult-inspired geometric ritual at `/archie-garg`.
+
+### 🔐 Enterprise-Grade Security (Sentinel)
+*   **Domain-Locked SSO**: Automatic restriction to `@cytosai.tech`, `@lsi.org`, and other authorized institutional domains.
+*   **Future-Proof RBAC**: Granular permission scopes (`docs:read_private`, `audit:view`, `admin:full`) mapped to tiered user identities.
+*   **Institutional Mapping**: Grouping of users by firm (e.g., Sequoia, Goldman Sachs) for bulk access management.
+*   **Biometric Interface**: Glassmorphic profile management with local asset storage and SSO-integrity checks.
+
+### 📊 Mission Control (Admin Portal)
+*   **System Pulse**: Real-time 3D telemetry of neural core activity and compute load.
+*   **Document Vault**: Immutable version-controlled PDF management with SHA-256 integrity verification.
+*   **Forensic Audit Engine**: Real-time logging of every sensitive document access event, IP, and user-agent.
+
+---
+
+## 🛠 Technical Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | Next.js 15 (App Router), TypeScript, Tailwind CSS |
+| **3D Engine** | Three.js, React Three Fiber, React Three Drei |
+| **Auth** | NextAuth.js v5 (Beta) |
+| **Database** | Cloud PostgreSQL (GCP / Vercel Postgres) |
+| **Animations** | Framer Motion, GSAP |
+| **Deployment** | Vercel (Edge Functions optimized) |
+
+---
+
+## 🚀 Deployment & Setup
+
+### Environment Variables
+Create a `.env.local` with the following:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Database
+DATABASE_URL="postgres://user:password@host:port/db?sslmode=require"
+
+# Auth
+AUTH_SECRET="your-32-byte-base64-secret"
+
+# Optional Discrete Vars
+POSTGRES_HOST=...
+POSTGRES_USER=...
+POSTGRES_PASSWORD=...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Database Initialization
+Run the orchestrated SQL scripts located in `/sql`:
+1. `001_initial_schema.sql` - Core structure.
+2. `003_future_proof_users.sql` - RBAC & Institutional tables.
+3. `004_super_admin.sql` - Bootstrap your identity.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📂 Project Structure
+*   `/src/app` - App Router (IR, Admin, Auth pages).
+*   `/src/components/3d` - Immersive Three.js scenes.
+*   `/src/lib` - Core services (DB, IR logic, Security).
+*   `/sql` - Orchestrated database migrations.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 👤 Author
+**Archie Garg** - *Principal Architect & Super Admin*
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2026 Living Systems Intelligence | CytosAI. **Proprietary & Confidential.**
