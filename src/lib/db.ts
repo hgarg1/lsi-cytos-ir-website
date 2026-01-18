@@ -3,12 +3,11 @@ import { Pool, PoolConfig } from 'pg';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Configuration helper that prefers DATABASE_URL but falls back to discrete vars
 const getConfig = (): PoolConfig => {
   if (process.env.DATABASE_URL) {
     return {
       connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false }, // Required for most Cloud SQL / Vercel external connections
+      ssl: { rejectUnauthorized: false },
     };
   }
 
@@ -21,13 +20,17 @@ const getConfig = (): PoolConfig => {
     ssl: process.env.POSTGRES_SSL === 'true' || isProduction 
       ? { rejectUnauthorized: false } 
       : undefined,
-    connectionTimeoutMillis: 5000, // 5 seconds
+    connectionTimeoutMillis: 5000,
   };
 };
 
-const pool = new Pool(getConfig());
+// Singleton pattern for PostgreSQL pool in Development
+const globalForPg = global as unknown as { pool: Pool };
 
-// Helper to test connection (call this in a health check route)
+export const pool = globalForPg.pool || new Pool(getConfig());
+
+if (!isProduction) globalForPg.pool = pool;
+
 export const testConnection = async () => {
   const client = await pool.connect();
   try {

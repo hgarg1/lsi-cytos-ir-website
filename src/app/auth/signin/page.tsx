@@ -1,7 +1,7 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
-import { useState, Suspense } from 'react';
+import { getCsrfToken } from 'next-auth/react';
+import { useState, Suspense, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { SecurityOrb } from '@/components/3d/SecurityOrb';
 import { Environment, OrbitControls, Sparkles } from '@react-three/drei';
@@ -12,24 +12,21 @@ import { useSearchParams } from 'next/navigation';
 function SignInForm() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [csrfToken, setCsrfToken] = useState('');
   const searchParams = useSearchParams();
   const urlError = searchParams.get('error');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      // Standard redirect-based sign in
-      await signIn('credentials', {
-        email,
-        callbackUrl: '/ir',
-        redirect: true,
-      });
-    } catch (err) {
-      console.error('SIGNIN_ERROR:', err);
-      setLoading(false);
+  useEffect(() => {
+    async function loadCsrf() {
+      const token = await getCsrfToken();
+      setCsrfToken(token || '');
     }
+    loadCsrf();
+  }, []);
+
+  const handleSubmit = () => {
+    setLoading(true);
+    // Let the browser take over for the POST request
   };
 
   return (
@@ -49,11 +46,22 @@ function SignInForm() {
          </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      {/* NATIVE FORM POST: This bypasses 'Failed to fetch' issues */}
+      <form 
+        method="POST" 
+        action="/api/auth/callback/credentials" 
+        onSubmit={handleSubmit}
+        className="space-y-6"
+      >
+        <input type="hidden" name="csrfToken" value={csrfToken} />
+        <input type="hidden" name="callbackUrl" value="/ir" />
+        <input type="hidden" name="redirect" value="true" />
+        
         <div className="space-y-2">
           <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Work Email</label>
           <input 
             type="email" 
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="name@lsi.org"
@@ -64,7 +72,7 @@ function SignInForm() {
 
         {urlError && (
           <div className="p-4 bg-red-900/20 border-l-2 border-red-500 text-red-200 text-sm">
-            Access Denied. Identity could not be verified.
+            Access Denied. Domain not authorized or identity mismatch.
           </div>
         )}
 
@@ -74,7 +82,7 @@ function SignInForm() {
           className="w-full bg-white text-graphite font-bold py-4 rounded-lg hover:bg-platinum transition-colors flex items-center justify-center gap-2 group"
         >
           {loading ? (
-            <span className="animate-pulse">Verifying Identity...</span>
+            <span className="animate-pulse">Initializing Handshake...</span>
           ) : (
             <>
               <span>Authenticate via SSO</span>
@@ -118,6 +126,13 @@ export default function SignInPage() {
 
       {/* RIGHT: Login Interface */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-16 bg-graphite border-l border-white/5 relative z-10">
+        <Link 
+          href="/ir" 
+          className="absolute top-8 right-8 text-[10px] font-bold text-gray-500 hover:text-white transition-all uppercase tracking-widest flex items-center gap-2 group"
+        >
+          Return to Portal
+          <svg className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+        </Link>
         <Suspense fallback={<div className="text-white font-mono text-xs">LOADING_INTERFACE...</div>}>
           <SignInForm />
         </Suspense>

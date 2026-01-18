@@ -4,6 +4,7 @@ import pool from '@/lib/db';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
+  trustHost: true,
   providers: [
     Credentials({
       name: 'Enterprise SSO',
@@ -16,7 +17,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!email) throw new Error('Email required');
 
         try {
-          // 1. Check for real user via the multi-email table
           const result = await pool.query(`
             SELECT u.*, i.name as institution_name, i.tier as institution_tier, ue.email as matched_email
             FROM user_emails ue
@@ -27,67 +27,58 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           if (result.rows.length > 0) {
             const user = result.rows[0];
-            
-            // Block suspended users immediately
             if (user.status === 'suspended') return null;
 
-            // Update last login
-            pool.query('UPDATE users SET last_login = NOW() WHERE id = $1', [user.id]);
+            // Log login event
+            pool.query('UPDATE users SET last_login = NOW() WHERE id = $1', [user.id]).catch(e => console.error('Update login error:', e));
             
+            // ULTRA-MINIMAL PAYLOAD to fix ERR_RESPONSE_HEADERS_TOO_BIG
             return {
-              id: user.id,
-              email: user.matched_email, // Return the email they logged in with
-              name: user.name,
-              image: user.image_url,
-              role: user.role,
-              permissions: user.permissions || [],
-              institution: user.institution_name,
-              isSsoManaged: user.is_sso_managed,
+              id: String(user.id),
+              email: String(user.matched_email),
+              name: String(user.name),
+              role: String(user.role),
             };
           }
-
-          // Auto-Provisioning for verified domains (Tier 2 access)
-          const allowedDomains = ['cytosai.tech', 'cytos.ai', 'lsi.org', 'livingsystemsintelligence.org'];
-          const domain = email.split('@')[1];
-
-          if (allowedDomains.includes(domain)) {
-             return {
-               id: 'provisioned-' + email,
-               email: email,
-               name: email.split('@')[0],
-               image: null,
-               role: 'investor',
-               permissions: ['docs:read_public'],
-               status: 'active',
-               isSsoManaged: false,
-             };
-          }
-          
-          return null;
-        } catch (error) {
-          console.error('Auth System Error:', error);
-          return null;
+        } catch (dbError) {
+          console.error('[AUTH] DATABASE_ERROR:', dbError);
         }
+
+        // Auto-Provisioning Fallback
+        const allowedDomains = ['cytosai.tech', 'cytos.ai', 'lsi.org', 'livingsystemsintelligence.org'];
+        const domain = email.split('@')[1];
+
+        if (allowedDomains.includes(domain)) {
+           return {
+             id: 'provisioned-' + email,
+             email: email,
+             name: email.split('@')[0],
+             role: 'investor',
+           };
+        }
+        
+        return null;
       },
     }),
   ],
-  pages: { signIn: '/auth/signin', error: '/auth/error' },
+  pages: { 
+    signIn: '/auth/signin', 
+    error: '/auth/error' 
+  },
+  session: {
+    strategy: 'jwt',
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.role = (user as any).role;
-        token.permissions = (user as any).permissions;
-        token.institution = (user as any).institution;
-        token.isSsoManaged = (user as any).isSsoManaged;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role;
-        (session.user as any).permissions = token.permissions;
-        (session.user as any).institution = token.institution;
-        (session.user as any).isSsoManaged = token.isSsoManaged;
+        (session.user as any).id = String(token.sub);
+        (session.user as any).role = String(token.role);
       }
       return session;
     },
