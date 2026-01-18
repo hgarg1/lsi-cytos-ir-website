@@ -9,9 +9,10 @@ export async function getLiveUser() {
   try {
     const result = await pool.query(
       `SELECT u.*, i.name as institution_name 
-       FROM users u
+       FROM user_emails ue
+       JOIN users u ON ue.user_id = u.id
        LEFT JOIN institutions i ON u.institution_id = i.id
-       WHERE u.email = $1`,
+       WHERE ue.email = $1`,
       [session.user.email]
     );
 

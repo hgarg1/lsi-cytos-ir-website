@@ -16,12 +16,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!email) throw new Error('Email required');
 
         try {
-          // Fetch user with institution details
+          // 1. Check for real user via the multi-email table
           const result = await pool.query(`
-            SELECT u.*, i.name as institution_name, i.tier as institution_tier
-            FROM users u
+            SELECT u.*, i.name as institution_name, i.tier as institution_tier, ue.email as matched_email
+            FROM user_emails ue
+            JOIN users u ON ue.user_id = u.id
             LEFT JOIN institutions i ON u.institution_id = i.id
-            WHERE u.email = $1
+            WHERE ue.email = $1
           `, [email]);
 
           if (result.rows.length > 0) {
@@ -35,7 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             
             return {
               id: user.id,
-              email: user.email,
+              email: user.matched_email, // Return the email they logged in with
               name: user.name,
               image: user.image_url,
               role: user.role,
