@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root {
+  /* Institutional Graphite + Platinum Theme - REFINED */
+  --color-graphite: #0F1216;
+  --color-graphite-subtle: #1A1D21;
+  --color-platinum: #E6E8EB;
+  --color-platinum-dark: #D1D5DB;
+  --color-off-white: #F9FAFB;
+  --color-white: #FFFFFF;
+  
+  /* Accents */
+  --color-steel-blue: #3A5F7D;
+  --color-steel-blue-hover: #2C4A62;
+  --color-evergreen: #2E6B4F;
+  --color-muted-amber: #9A6B3F;
+  --color-accent-blue: #0066CC; /* Brighter for interactive elements */
+
+  /* Text */
+  --color-text-body: #111827;
+  --color-text-meta: #6B7280;
+  --color-text-disabled: #9CA3AF;
+
+  --background: var(--color-white);
+  --foreground: var(--color-text-body);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-graphite: var(--color-graphite);
+  --color-graphite-subtle: var(--color-graphite-subtle);
+  --color-platinum: var(--color-platinum);
+  --color-platinum-dark: var(--color-platinum-dark);
+  --color-off-white: var(--color-off-white);
+  --color-steel-blue: var(--color-steel-blue);
+  --color-steel-blue-hover: var(--color-steel-blue-hover);
+  --color-evergreen: var(--color-evergreen);
+  --color-muted-amber: var(--color-muted-amber);
+  --color-accent-blue: var(--color-accent-blue);
+  
+  --color-text-body: var(--color-text-body);
+  --color-text-meta: var(--color-text-meta);
+  --color-text-disabled: var(--color-text-disabled);
+
+  --font-sans: var(--font-geist-sans), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), "JetBrains Mono", "Fira Code", monospace;
+  
+  --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+}
+
+body {
+  background-color: var(--color-off-white);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent layout shift between pages */
+  overflow-y: scroll;
+}
+
+/* Modern Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-platinum);
+}
+
+.ir-container {
+  width: 100%;
+  max-width: 1400px; /* Wider for modern dashboards */
+  margin: 0 auto;
+  /* Only set horizontal padding so utility classes can control vertical */
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.ir-border {
+  border: 1px solid var(--color-platinum);
+}
+
+.ir-border-b {
+  border-bottom: 1px solid var(--color-platinum);
+}
+
+.ir-transition {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Clean Tables */
+.ir-table-row {
+  border-bottom: 1px solid var(--color-platinum);
+  transition: background-color 0.15s ease;
+}
+.ir-table-row:hover {
+  background-color: var(--color-off-white);
+}
+.ir-table-row:last-child {
+  border-bottom: none;
+}

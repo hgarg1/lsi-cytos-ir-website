@@ -1,0 +1,3 @@
+-- Add Profile Image and SSO Flag
+ALTER TABLE users ADD COLUMN IF NOT EXISTS image_url TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS is_sso_managed BOOLEAN DEFAULT FALSE;
