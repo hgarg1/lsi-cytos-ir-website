@@ -12,7 +12,13 @@ export default async function DocumentVault() {
         </div>
         
         {/* Upload Action */}
-        <form action={createDocument} className="flex gap-2">
+        <form 
+          action={async (formData) => {
+            'use server';
+            await createDocument(formData);
+          }} 
+          className="flex gap-2"
+        >
            <input type="hidden" name="title" value="Q4 2025 Earnings Call" />
            <input type="hidden" name="category" value="Financials" />
            <input type="hidden" name="visibility" value="public" />

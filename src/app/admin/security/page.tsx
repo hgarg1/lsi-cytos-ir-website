@@ -83,7 +83,13 @@ export default async function ApiCredentials() {
                 Provision New Key
               </h3>
               
-              <form action={rotateApiKey} className="space-y-6">
+              <form 
+                action={async (formData) => {
+                  'use server';
+                  await rotateApiKey(formData);
+                }} 
+                className="space-y-6"
+              >
                  <div className="space-y-2">
                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Service Name</label>
                     <input 
