@@ -38,10 +38,10 @@ export default async function IRLayout({
                  Pioneering the intersection of Living Systems Intelligence and computational biology.
                </p>
             </div>
-            <div className="flex gap-8 text-sm text-text-meta">
-              <a href="#" className="hover:text-graphite">Privacy Policy</a>
-              <a href="#" className="hover:text-graphite">Terms of Use</a>
-              <a href="#" className="hover:text-graphite">Contact</a>
+            <div className="flex gap-8 text-sm text-text-meta font-medium">
+              <Link href="/legal/privacy" className="hover:text-graphite transition-colors">Privacy Policy</Link>
+              <Link href="/legal/terms" className="hover:text-graphite transition-colors">Terms of Service</Link>
+              <Link href="/contact" className="hover:text-graphite transition-colors">Contact</Link>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-platinum text-xs text-text-disabled flex justify-between">
