@@ -1,6 +1,8 @@
 import { IRService } from '@/lib/ir-service';
 import DocumentList from '@/components/ir/DocumentList';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Reports & Filings | LSI CytosAI IR',
   description: 'Access financial reports, governance documents, and regulatory filings.',

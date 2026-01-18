@@ -21,6 +21,7 @@ const getConfig = (): PoolConfig => {
     ssl: process.env.POSTGRES_SSL === 'true' || isProduction 
       ? { rejectUnauthorized: false } 
       : undefined,
+    connectionTimeoutMillis: 5000, // 5 seconds
   };
 };
 

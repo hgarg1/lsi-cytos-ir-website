@@ -5,6 +5,8 @@ import { SystemPulse } from '@/components/3d/SystemPulse';
 import { Environment, Float, MeshDistortMaterial } from '@react-three/drei';
 import { motion } from 'framer-motion';
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminDashboard() {
   const stats = [
     { label: 'Verified Investors', value: '412', change: '+12.4%', trend: 'up' },

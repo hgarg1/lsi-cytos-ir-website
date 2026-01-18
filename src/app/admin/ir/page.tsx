@@ -3,6 +3,8 @@
 import { seedIRData, createIRDocument } from './actions';
 import { useActionState } from 'react';
 
+export const dynamic = 'force-dynamic';
+
 export default function IRAdminPage() {
   const [seedState, seedAction, isPending] = useActionState(seedIRData, null);
 
