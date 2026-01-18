@@ -46,7 +46,6 @@ function SacredGeometry() {
           distortionScale={0.5}
           temporalDistortion={0.2}
           color="#a0c0ff"
-          bg="#000000"
         />
       </mesh>
 

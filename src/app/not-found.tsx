@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import { random } from 'maath'; // Helper for random points
 
 function FracturedHelix(props: any) {
-  const ref = useRef<any>();
+  const ref = useRef<any>(null);
   // Generate points in a sphere/cloud
   const [sphere] = useState(() => random.inSphere(new Float32Array(5000), { radius: 1.5 }));
 

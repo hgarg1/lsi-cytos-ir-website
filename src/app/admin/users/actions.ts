@@ -1,3 +1,5 @@
+'use server'
+
 import pool from '@/lib/db';
 
 export async function getUsers() {

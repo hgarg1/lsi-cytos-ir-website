@@ -1,3 +1,4 @@
+import 'server-only';
 import pool from '@/lib/db';
 import { auth } from '@/auth';
 

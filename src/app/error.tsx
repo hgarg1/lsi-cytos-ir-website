@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, MeshDistortMaterial, Glitch } from '@react-three/drei';
+import { Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { useRef } from 'react';
 import * as THREE from 'three';
 

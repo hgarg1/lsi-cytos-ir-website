@@ -1,3 +1,4 @@
+import 'server-only';
 import pool from './db';
 import crypto from 'crypto';
 

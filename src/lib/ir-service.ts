@@ -1,3 +1,4 @@
+import 'server-only';
 import pool from './db';
 import { randomUUID } from 'crypto';
 

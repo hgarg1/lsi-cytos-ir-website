@@ -20,13 +20,16 @@ export default function SignInPage() {
 
     const res = await signIn('credentials', {
       email,
-      redirect: true,
+      redirect: false,
       callbackUrl: '/ir',
     });
 
     if (res?.error) {
       setError('Access Denied. Domain not authorized for SSO.');
       setLoading(false);
+    } else {
+      // Manual redirect on success
+      window.location.href = '/ir';
     }
   };
 
