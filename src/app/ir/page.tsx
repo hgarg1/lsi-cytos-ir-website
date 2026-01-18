@@ -1,12 +1,42 @@
-export const metadata = {
-  title: 'Investor Overview | LSI CytosAI',
-  description: 'Official Investor Relations for LSI and CytosAI. Financial reports, stock information, and corporate governance.',
-};
+'use client';
+
+import { motion } from 'framer-motion';
 
 export default function IROverviewPage() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1], // Custom cubic-bezier for a "premium" feel
+      },
+    },
+  };
+
   return (
-    <div className="space-y-12">
-      <div className="flex flex-col md:flex-row justify-between items-end border-b border-platinum pb-8">
+    <motion.div 
+      className="space-y-12"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <motion.div 
+        variants={itemVariants}
+        className="flex flex-col md:flex-row justify-between items-end border-b border-platinum pb-8"
+      >
         <div>
           <h1 className="text-4xl font-semibold text-graphite tracking-tight mb-3">Investor Overview</h1>
           <p className="text-lg text-text-meta max-w-2xl font-light">
@@ -19,13 +49,16 @@ export default function IROverviewPage() {
             Latest Earnings Report
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Modern Dashboard Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Stock Card - Spans 2 cols */}
-        <div className="col-span-1 md:col-span-2 bg-white rounded-xl border border-platinum p-6 shadow-sm relative overflow-hidden group">
+        <motion.div 
+          variants={itemVariants}
+          className="col-span-1 md:col-span-2 bg-white rounded-xl border border-platinum p-6 shadow-sm relative overflow-hidden group"
+        >
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <svg className="w-24 h-24 text-graphite" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
           </div>
@@ -49,25 +82,34 @@ export default function IROverviewPage() {
             <span>Low: 141.10</span>
             <span>Vol: 1.2M</span>
           </p>
-        </div>
+        </motion.div>
 
         {/* Stats Cards */}
-        <div className="bg-white rounded-xl border border-platinum p-6 shadow-sm hover:border-steel-blue/30 transition-colors">
+        <motion.div 
+          variants={itemVariants}
+          className="bg-white rounded-xl border border-platinum p-6 shadow-sm hover:border-steel-blue/30 transition-colors"
+        >
           <h3 className="text-xs font-bold text-text-meta uppercase tracking-wider mb-2">Market Cap</h3>
           <div className="text-3xl font-bold text-graphite tracking-tight mb-1">$42.8B</div>
           <p className="text-xs text-text-meta">Enterprise Value: $40.1B</p>
-        </div>
+        </motion.div>
 
-        <div className="bg-white rounded-xl border border-platinum p-6 shadow-sm hover:border-steel-blue/30 transition-colors">
+        <motion.div 
+          variants={itemVariants}
+          className="bg-white rounded-xl border border-platinum p-6 shadow-sm hover:border-steel-blue/30 transition-colors"
+        >
           <h3 className="text-xs font-bold text-text-meta uppercase tracking-wider mb-2">Next Earnings</h3>
           <div className="text-3xl font-bold text-graphite tracking-tight mb-1">Oct 24</div>
           <p className="text-xs text-text-meta">Q3 2025 Results & Webcast</p>
-        </div>
+        </motion.div>
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Material Updates Feed */}
-        <div className="lg:col-span-2">
+        <motion.div 
+          variants={itemVariants}
+          className="lg:col-span-2"
+        >
           <div className="flex justify-between items-center mb-6">
              <h2 className="text-xl font-semibold text-graphite">Material Updates</h2>
              <a href="#" className="text-sm text-steel-blue hover:underline">View Archive &rarr;</a>
@@ -92,10 +134,13 @@ export default function IROverviewPage() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Quick Links / Promo */}
-        <div className="space-y-6">
+        <motion.div 
+          variants={itemVariants}
+          className="space-y-6"
+        >
            <div className="bg-gradient-to-br from-graphite to-gray-900 rounded-xl p-6 text-white shadow-lg">
               <h3 className="font-semibold text-lg mb-2">Investor Presentation</h3>
               <p className="text-sm text-white/70 mb-4">Download the latest overview of our strategic roadmap and financial targets.</p>
@@ -120,8 +165,8 @@ export default function IROverviewPage() {
                 </button>
               </div>
            </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
