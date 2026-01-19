@@ -29,7 +29,10 @@ export default function ContactPage() {
       <header className="absolute top-0 left-0 right-0 z-20 p-8 flex justify-between items-center pointer-events-none">
          <Link href="/ir" className="flex items-center gap-3 pointer-events-auto group">
             <div className="w-8 h-8 bg-white/10 backdrop-blur rounded flex items-center justify-center text-white font-bold text-xs border border-white/20 group-hover:bg-white group-hover:text-black transition-colors">LC</div>
-            <span className="font-bold tracking-tight text-sm uppercase">Living Systems Intelligence | CytosAI</span>
+            <span className="font-bold tracking-tight text-sm uppercase">
+               <span className="md:hidden">LSI | CytosAI</span>
+               <span className="hidden md:inline">Living Systems Intelligence | CytosAI</span>
+            </span>
          </Link>
          <Link href="/ir" className="pointer-events-auto text-[10px] font-bold text-gray-400 hover:text-white transition-all uppercase tracking-widest border border-white/10 px-4 py-2 rounded-full hover:bg-white/5">
             Return to Investor Relations
@@ -50,7 +53,7 @@ export default function ContactPage() {
                  Initiate<br/>Dialogue
                </h1>
                <p className="text-lg text-gray-400 max-w-xl leading-relaxed">
-                 We prioritize high-bandwidth communication with our institutional partners. Direct routing to the Office of the CFO.
+                 We prioritize high-bandwidth communication with our institutional partners. Direct routing to the Office of the Corporate Secretary.
                </p>
             </motion.div>
 

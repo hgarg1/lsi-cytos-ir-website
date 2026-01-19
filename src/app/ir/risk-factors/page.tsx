@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import { getLiveUser } from '@/lib/user-service';
 import RiskDashboard from '@/components/ir/RiskDashboard';
 import Link from 'next/link';
 
@@ -8,10 +9,12 @@ export const metadata = {
 };
 
 export default async function RiskFactorsPage() {
-  const session = await auth();
-  const hasAccess = session?.user && (
-    (session.user as any).permissions?.includes('docs:read_private') || 
-    (session.user as any).permissions?.includes('admin:full')
+  const user = await getLiveUser();
+  const hasAccess = user && (
+    user.permissions?.includes('docs:read_private') || 
+    user.permissions?.includes('admin:full') ||
+    user.role === 'admin' ||
+    user.role === 'super_admin'
   );
 
   if (!hasAccess) {

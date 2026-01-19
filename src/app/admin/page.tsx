@@ -4,10 +4,17 @@ import { Canvas } from '@react-three/fiber';
 import { SystemPulse } from '@/components/3d/SystemPulse';
 import { Environment, Float, MeshDistortMaterial } from '@react-three/drei';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 export const dynamic = 'force-dynamic';
 
 export default function AdminDashboard() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const stats = [
     { label: 'Active Stakeholders', value: '412', change: '+12.4%', trend: 'up' },
     { label: 'Document Access', value: '1.8GB', change: '+4.2%', trend: 'up' },
@@ -15,16 +22,20 @@ export default function AdminDashboard() {
     { label: 'Compliance Alerts', value: '0', change: 'None', trend: 'good' },
   ];
 
+  if (!mounted) {
+     return null; // Or a skeleton loader to prevent hydration mismatch on complex dashboard
+  }
+
   return (
     <div className="space-y-12 animate-in fade-in duration-700">
       
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-0">
         <div>
-          <h1 className="text-4xl font-bold text-white tracking-tight mb-2">Executive Dashboard</h1>
-          <p className="text-gray-500 font-medium">Real-time governance and investor activity monitoring.</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">Executive Dashboard</h1>
+          <p className="text-sm md:text-base text-gray-500 font-medium">Real-time governance and investor activity monitoring.</p>
         </div>
         <div className="flex gap-3">
-           <button className="bg-white text-black px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-platinum transition-all shadow-lg shadow-white/5 active:scale-95">EXPORT_REPORT</button>
+           <button className="bg-white text-black px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-platinum transition-all shadow-lg shadow-white/5 active:scale-95 w-full md:w-auto">EXPORT_REPORT</button>
         </div>
       </div>
 
@@ -52,7 +63,7 @@ export default function AdminDashboard() {
         
         {/* Visual Monitoring Center */}
         <div className="lg:col-span-2 space-y-8">
-           <div className="bg-gradient-to-br from-[#16191E] to-[#0A0C10] border border-white/[0.05] rounded-[2.5rem] p-1 relative overflow-hidden h-[500px]">
+           <div className="bg-gradient-to-br from-[#16191E] to-[#0A0C10] border border-white/[0.05] rounded-[2.5rem] p-1 relative overflow-hidden h-[400px] lg:h-[500px]">
               <div className="absolute inset-0 z-0">
                  <Canvas camera={{ position: [0, 0, 5] }}>
                     <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
@@ -64,14 +75,14 @@ export default function AdminDashboard() {
                  </Canvas>
               </div>
               
-              <div className="relative z-10 p-10 flex flex-col justify-between h-full pointer-events-none">
-                 <div className="flex justify-between items-start">
+              <div className="relative z-10 p-6 lg:p-10 flex flex-col justify-between h-full pointer-events-none">
+                 <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-0">
                     <div className="bg-black/40 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/5">
                        <h3 className="text-lg font-bold text-white">Activity Pulse</h3>
                        <p className="text-[10px] text-gray-500 font-mono tracking-widest">GLOBAL_ACCESS_VELOCITY</p>
                     </div>
-                    <div className="flex flex-col items-end gap-2">
-                       <div className="h-2 w-32 bg-white/5 rounded-full overflow-hidden">
+                    <div className="flex flex-col items-end gap-2 w-full md:w-auto">
+                       <div className="h-2 w-full md:w-32 bg-white/5 rounded-full overflow-hidden">
                           <motion.div 
                             animate={{ width: ['20%', '60%', '45%', '80%'] }} 
                             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -82,16 +93,16 @@ export default function AdminDashboard() {
                     </div>
                  </div>
 
-                 <div className="grid grid-cols-3 gap-12 bg-black/20 backdrop-blur-sm p-8 rounded-[2rem] border border-white/5">
-                    <div className="space-y-1">
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 bg-black/20 backdrop-blur-sm p-6 md:p-8 rounded-[2rem] border border-white/5">
+                    <div className="space-y-1 flex justify-between md:block">
                        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Status</p>
                        <p className="text-xl font-mono text-evergreen">ACTIVE</p>
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-1 flex justify-between md:block">
                        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Protocol</p>
                        <p className="text-xl font-mono text-white">TLS_1.3</p>
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-1 flex justify-between md:block">
                        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Region</p>
                        <p className="text-xl font-mono text-gray-400 truncate">US-EAST-1</p>
                     </div>

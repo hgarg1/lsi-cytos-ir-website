@@ -47,7 +47,10 @@ export default function IRNavbar({ liveUser, isAdmin }: NavbarProps) {
         <motion.div variants={itemVariants} className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group">
              <div className="w-8 h-8 bg-graphite rounded-sm flex items-center justify-center text-white font-bold text-xs tracking-tighter group-hover:scale-105 transition-transform">LC</div>
-             <div className="font-semibold text-lg tracking-tight text-graphite">Living Systems Intelligence | CytosAI</div>
+             <div className="font-semibold text-lg tracking-tight text-graphite">
+                <span className="md:hidden">LSI | CytosAI</span>
+                <span className="hidden md:inline">Living Systems Intelligence | CytosAI</span>
+             </div>
           </Link>
           <div className="h-4 w-px bg-platinum mx-2 hidden md:block"></div>
           <div className="text-sm font-medium text-text-meta hidden md:block">Investor Relations</div>

@@ -3,6 +3,7 @@ import { auth, signOut } from '@/auth';
 import { redirect } from 'next/navigation';
 import UserAvatarTrigger from '@/components/ir/UserAvatarTrigger';
 import { getLiveUser } from '@/lib/user-service';
+import AdminMobileNav from '@/components/admin/AdminMobileNav';
 
 export default async function AdminLayout({
   children,
@@ -28,13 +29,17 @@ export default async function AdminLayout({
   return (
     <div className="min-h-screen bg-[#0F1216] text-platinum flex flex-col font-sans selection:bg-steel-blue/30">
       {/* Sleek Top Bar */}
-      <header className="h-16 border-b border-white/[0.03] bg-[#0F1216]/80 backdrop-blur-xl flex items-center justify-between px-8 sticky top-0 z-50">
-        <div className="flex items-center gap-8">
+      <header className="h-16 border-b border-white/[0.03] bg-[#0F1216]/80 backdrop-blur-xl flex items-center justify-between px-4 lg:px-8 sticky top-0 z-50">
+        <div className="flex items-center gap-4 lg:gap-8">
+          <div className="lg:hidden">
+            <AdminMobileNav navItems={navItems} user={liveUser} />
+          </div>
           <Link href="/ir" className="flex items-center gap-2.5 group">
             <div className="w-7 h-7 bg-white rounded flex items-center justify-center text-black font-bold text-xs shadow-lg shadow-white/5 group-hover:scale-105 transition-transform">LC</div>
-            <span className="text-sm font-bold tracking-tight text-white/90">GOVERNANCE PORTAL</span>
+            <span className="text-sm font-bold tracking-tight text-white/90 hidden md:inline">GOVERNANCE PORTAL</span>
+            <span className="text-sm font-bold tracking-tight text-white/90 md:hidden">ADMIN</span>
           </Link>
-          <div className="flex items-center gap-2 bg-white/[0.03] px-3 py-1 rounded-full border border-white/[0.05]">
+          <div className="hidden md:flex items-center gap-2 bg-white/[0.03] px-3 py-1 rounded-full border border-white/[0.05]">
              <div className="w-1.5 h-1.5 rounded-full bg-evergreen"></div>
              <span className="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Operational</span>
           </div>
@@ -43,19 +48,19 @@ export default async function AdminLayout({
         <div className="flex items-center gap-6">
            <Link 
              href="/ir" 
-             className="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-300 hover:bg-white/10 hover:text-white transition-all uppercase tracking-widest"
+             className="hidden lg:flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-300 hover:bg-white/10 hover:text-white transition-all uppercase tracking-widest"
            >
              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
              View IR Site
            </Link>
            <div className="h-8 w-px bg-white/5 hidden md:block"></div>
-           <div className="flex flex-col items-end">
+           <div className="flex flex-col items-end hidden md:flex">
               <span className="text-xs font-semibold text-white/90">{liveUser?.name}</span>
               <span className="text-[10px] text-steel-blue font-mono uppercase tracking-tighter">{role?.replace('_', ' ')}</span>
            </div>
            <UserAvatarTrigger session={{ user: liveUser }} />
            <div className="h-8 w-px bg-white/5 hidden md:block"></div>
-           <form action={async () => { 'use server'; await signOut(); }}>
+           <form action={async () => { 'use server'; await signOut(); }} className="hidden md:block">
              <button className="text-xs font-medium text-gray-400 hover:text-red-500 transition-colors flex items-center gap-2">
                <span>Sign Out</span>
                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
@@ -66,7 +71,7 @@ export default async function AdminLayout({
 
       <div className="flex-1 flex overflow-hidden">
         {/* Navigation Sidebar */}
-        <aside className="w-72 flex flex-col p-6 bg-[#0F1216]">
+        <aside className="w-72 hidden lg:flex flex-col p-6 bg-[#0F1216]">
           <nav className="flex-1 space-y-1.5">
             {navItems.map((item) => (
               <Link
@@ -93,8 +98,8 @@ export default async function AdminLayout({
         </aside>
 
         {/* Main Viewport */}
-        <main className="flex-1 overflow-y-auto bg-[#0A0C10] rounded-tl-[2.5rem] border-t border-l border-white/[0.03] shadow-[inset_0_2px_40px_rgba(0,0,0,0.3)]">
-          <div className="max-w-6xl mx-auto py-12 px-10">
+        <main className="flex-1 overflow-y-auto bg-[#0A0C10] lg:rounded-tl-[2.5rem] border-t lg:border-l border-white/[0.03] shadow-[inset_0_2px_40px_rgba(0,0,0,0.3)]">
+          <div className="max-w-6xl mx-auto py-8 px-4 lg:py-12 lg:px-10">
             {children}
           </div>
         </main>
